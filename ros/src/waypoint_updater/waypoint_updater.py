@@ -4,8 +4,8 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from styx_msgs.msg import Lane, Waypoint
 from scipy.spatial import KDTree
+from std_msgs.msg import Int32
 import numpy as np
-
 import math
 
 '''
@@ -24,7 +24,7 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
-
+MAX_DECEL = 5
 
 class WaypointUpdater(object):
     def __init__(self):
@@ -43,13 +43,14 @@ class WaypointUpdater(object):
         self.base_waypoints = None
         self.waypoints_2d = None
         self.waypoint_tree = None
+        self.stopline_wp_idx = None
 
         self.loop()
 
     def loop(self):
         rate = rospy.Rate(50)
         while not rospy.is_shutdown():
-            if self.pose and self.base_waypoints:
+            if self.pose and self.base_waypoints and self.waypoint_tree:
                 self.publish_waypoints()
             rate.sleep()
 
@@ -72,16 +73,19 @@ class WaypointUpdater(object):
         return closest_idx
 
     def publish_waypoints(self):
-        final_lane = gen_lane()
+        final_lane = self.new_lane()
         self.final_waypoints_pub.publish(final_lane)
 
-    def gen_lane(self):
+    def new_lane(self):
         lane = Lane()
         lane.header = self.base_waypoints.header
 
         closest_idx = self.get_closest_waypoint_idx()
         farthest_idx = closest_idx + LOOKAHEAD_WPS
         base_waypoints = self.base_waypoints.waypoints[closest_idx:farthest_idx]
+
+        if not self.stopline_wp_idx:
+            self.stopline_wp_idx = -1
 
         if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= farthest_idx):
             lane.waypoints = base_waypoints
