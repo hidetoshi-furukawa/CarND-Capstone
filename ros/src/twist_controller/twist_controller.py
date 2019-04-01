@@ -14,6 +14,14 @@ class Controller(object):
                                      , max_lat_accel, max_steer_angle):
 
         self.min_vel = 0.1
+
+        self.vehicle_mass = vehicle_mass
+        self.fuel_capacity = fuel_capacity
+        self.brake_deadband = brake_deadband
+        self.decel_limit = decel_limit
+        self.accel_limit = accel_limit
+        self.wheel_radius = wheel_radius
+
         self.yaw_controller = YawController(wheel_base, steer_ratio, self.min_vel, max_lat_accel, max_steer_angle)
 
         # Coefficients for PID Controller
@@ -31,13 +39,6 @@ class Controller(object):
         ts = .02
         self.vel_lps = LowPassFilter(tau, ts)
 
-        self.vehicle_mass = vehicle_mass
-        self.fuel_capacity = fuel_capacity
-        self.brake_deadband = brake_deadband
-        self.decel_limit = decel_limit
-        self.accel_limit = accel_limit
-        self.wheel_radius = wheel_radius
-
         self.last_time = rospy.get_time()
 
     def control(self, dbw_enabled, current_vel, linear_vel, angular_vel):
@@ -50,7 +51,6 @@ class Controller(object):
 
         steering = self.yaw_controller.get_steering(linear_vel, angular_vel, current_vel)
         vel_error = linear_vel - current_vel
-        self.last_vel = current_vel
 
         current_time = rospy.get_time()
         sample_time = current_time - self.last_time
