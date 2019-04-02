@@ -23,8 +23,9 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
+LOOKAHEAD_WPS = 50  # 200 # Number of waypoints we will publish. You can change this number
 MAX_DECEL = 5
+
 
 class WaypointUpdater(object):
     def __init__(self):
@@ -60,16 +61,16 @@ class WaypointUpdater(object):
         closest_idx = self.waypoint_tree.query([x, y], 1)[1]
 
         closest_coord = self.waypoints_2d[closest_idx]
-        prev_coord = self.waypoints_2d[closest_idx-1]
+        prev_coord = self.waypoints_2d[closest_idx - 1]
 
         cl_vect = np.array(closest_coord)
         prev_vect = np.array(prev_coord)
-        pos_vect = np.array([x,y])
+        pos_vect = np.array([x, y])
 
-        val = np.dot(cl_vect-prev_vect, pos_vect-cl_vect)
+        val = np.dot(cl_vect - prev_vect, pos_vect - cl_vect)
 
         if val > 0:
-            closest_idx = (closest_idx + 1 ) % len(self.waypoints_2d)
+            closest_idx = (closest_idx + 1) % len(self.waypoints_2d)
         return closest_idx
 
     def publish_waypoints(self):
@@ -90,7 +91,7 @@ class WaypointUpdater(object):
         if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= farthest_idx):
             lane.waypoints = base_waypoints
         else:
-            lane.waypoints =  self.decelerate_waypoints(base_waypoints, closest_idx)
+            lane.waypoints = self.decelerate_waypoints(base_waypoints, closest_idx)
         return lane
 
     def decelerate_waypoints(self, waypoints, closest_idx):
@@ -98,17 +99,17 @@ class WaypointUpdater(object):
         for i, wp in enumerate(waypoints):
             new_wp = Waypoint()
             new_wp.pose = wp.pose
-            new_waypoints.append(new_wp)
 
             stop_idx = max(self.stopline_wp_idx - closest_idx - 2, 0)
             dist = self.distance(waypoints, i, stop_idx)
-            vel = math.sqrt(2* MAX_DECEL * dist)
-            if vel < 1. :
-                vel = 0.
+            vel = math.sqrt(2 * MAX_DECEL * dist)
+            if vel < 1.0:
+                vel = 0.0
 
-            new_vel = min(vel, get_waypoint_velocity(wp))
+            new_vel = min(vel, self.get_waypoint_velocity(wp))
 
-            set_waypoint_velocity(new_wapoints, i, new_vel)
+            new_wp.twist.twist.linear.x = new_vel
+            new_waypoints.append(new_wp)
 
         return new_waypoints
 
@@ -119,7 +120,7 @@ class WaypointUpdater(object):
         self.base_waypoints = waypoints
 
         if not self.waypoints_2d:
-            self.waypoints_2d = [[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y]for waypoint in waypoints.waypoints]
+            self.waypoints_2d = [[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
             self.waypoint_tree = KDTree(self.waypoints_2d)
 
     def traffic_cb(self, msg):
@@ -137,8 +138,8 @@ class WaypointUpdater(object):
 
     def distance(self, waypoints, wp1, wp2):
         dist = 0
-        dl = lambda a, b: math.sqrt((a.x-b.x)**2 + (a.y-b.y)**2  + (a.z-b.z)**2)
-        for i in range(wp1, wp2+1):
+        dl = lambda a, b: math.sqrt((a.x - b.x)**2 + (a.y - b.y)**2 + (a.z - b.z)**2)
+        for i in range(wp1, wp2 + 1):
             dist += dl(waypoints[wp1].pose.pose.position, waypoints[i].pose.pose.position)
             wp1 = i
         return dist
