@@ -142,11 +142,11 @@ class TLClassifier(object):
 
         rtn = TrafficLight.UNKNOWN
 
-        if max_class == 1:
+        if max_class == 0:
             rtn = TrafficLight.RED
-        elif max_class == 2:
+        elif max_class == 1:
             rtn = TrafficLight.YELLOW
-        elif max_class == 0:
+        elif max_class == 2:
             rtn = TrafficLight.GREEN
 
         self.last_pred = rtn
