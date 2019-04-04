@@ -40,9 +40,11 @@ class TLClassifier(object):
         else:
             return "Unrecognized attribute name '" + n + "'"
 
-    def __init__(self, **kwargs):
+    def __init__(self, is_site):
         self.__dict__.update(self._defaults) # set up default values
-        self.__dict__.update(kwargs) # and update with user overrides
+        if is_site:
+            self.model_path = 'models/real_model.h5'
+            self.anchors_path = 'light_classification/yolo_tiny_anchors.txt'
         self.class_names = self._get_class()
         self.anchors = self._get_anchors()
         self.sess = K.get_session()
@@ -142,11 +144,11 @@ class TLClassifier(object):
 
         rtn = TrafficLight.UNKNOWN
 
-        if max_class == 1:
+        if max_class == 0:
             rtn = TrafficLight.RED
-        elif max_class == 2:
+        elif max_class == 1:
             rtn = TrafficLight.YELLOW
-        elif max_class == 0:
+        elif max_class == 2:
             rtn = TrafficLight.GREEN
 
         self.last_pred = rtn
