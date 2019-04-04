@@ -44,6 +44,7 @@ class TLDetector(object):
 
         config_string = rospy.get_param("/traffic_light_config")
         self.config = yaml.load(config_string)
+        print('config_string: {}'.format(config_string))
 
         self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
 
@@ -62,8 +63,7 @@ class TLDetector(object):
         self.img_count = 0
 
         self.is_site = self.config["is_site"]
-        # TODO self.light_classifier = TLClassifier(self.is_site)
-        self.light_classifier = TLClassifier()
+        self.light_classifier = TLClassifier(self.is_site)
 
         detector_rate = rospy.Rate(10)  # 10Hz
         while not rospy.is_shutdown():
