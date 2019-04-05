@@ -28,26 +28,6 @@ class TLDetector(object):
         self.has_image = False
         self.lights = []
 
-        sub1 = rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
-        sub2 = rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
-
-        '''
-        /vehicle/traffic_lights provides you with the location of the traffic light in 3D map space and
-        helps you acquire an accurate ground truth data source for the traffic light
-        classifier by sending the current color state of all traffic lights in the
-        simulator. When testing on the vehicle, the color state will not be available. You'll need to
-        rely on the position of the light and the camera image to predict it.
-        '''
-        sub3 = rospy.Subscriber('/vehicle/traffic_lights', TrafficLightArray, self.traffic_cb)
-        # TODO Check the subscriber for is_site (/image_color or /image_raw)
-        sub6 = rospy.Subscriber('/image_color', Image, self.image_cb)
-
-        config_string = rospy.get_param("/traffic_light_config")
-        self.config = yaml.load(config_string)
-        print('config_string: {}'.format(config_string))
-
-        self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
-
         self.bridge = CvBridge()
         self.light_classifier = None
         self.listener = tf.TransformListener()
@@ -62,8 +42,27 @@ class TLDetector(object):
 
         self.img_count = 0
 
+        config_string = rospy.get_param("/traffic_light_config")
+        print('config_string: {}'.format(config_string))
+        self.config = yaml.load(config_string)
         self.is_site = self.config["is_site"]
         self.light_classifier = TLClassifier(self.is_site)
+
+        sub1 = rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
+        sub2 = rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
+
+        '''
+        /vehicle/traffic_lights provides you with the location of the traffic light in 3D map space and
+        helps you acquire an accurate ground truth data source for the traffic light
+        classifier by sending the current color state of all traffic lights in the
+        simulator. When testing on the vehicle, the color state will not be available. You'll need to
+        rely on the position of the light and the camera image to predict it.
+        '''
+        sub3 = rospy.Subscriber('/vehicle/traffic_lights', TrafficLightArray, self.traffic_cb)
+        # TODO Check the subscriber for is_site (/image_color or /image_raw)
+        sub6 = rospy.Subscriber('/image_color', Image, self.image_cb)
+
+        self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
 
         detector_rate = rospy.Rate(10)  # 10Hz
         while not rospy.is_shutdown():
@@ -203,7 +202,8 @@ class TLDetector(object):
 
         if closest_light:
             state = self.get_light_state(closest_light)
-            # rospy.loginfo('closest light wp %i with color %i', line_wp_idx, state )
+            # rospy.loginfo('closest light wp %i with color %i', line_wp_idx, state)
+            # print('closest light wp {} with color {}'.format(line_wp_idx, state))
             return line_wp_idx, state
         else:
             return -1, TrafficLight.UNKNOWN
