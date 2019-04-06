@@ -1,5 +1,7 @@
-## The CarND Capstone Project
+# Self Driving Car Nanodegree - Capstone Project: System Integration
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+
+![carla](./imgs/udacity-self-driving-car.jpeg)
 
 ## System Architecture
 The following is a system architecture diagram showing the ROS nodes and topics used in the project.
@@ -16,14 +18,14 @@ This package contains the traffic light detection node: `tl_detector.py`.
 ![Traffic Light Detection Node](imgs/tl-detector-ros-graph.png)
 
 See code in
-[/ros/src/tl_detector/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/tl_detector/) (coming soon).
+[/ros/src/tl_detector/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/tl_detector/).
 
 ### Waypoint Updater Node
 This package contains the waypoint updater node: `waypoint_updater.py`.
 
 ![Waypoint Updater Node](imgs/waypoint-updater-ros-graph.png)
 
-See code in [/ros/src/waypoint_updater/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/waypoint_updater/) (coming soon).
+See code in [/ros/src/waypoint_updater/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/waypoint_updater/).
 
 ### Drive By Wire (DBW) Node
 Carla is equipped with a drive-by-wire (dbw) system, meaning the throttle, brake, and steering have electronic control.
@@ -31,14 +33,25 @@ This package contains the files that are responsible for control of the vehicle:
 
 ![DBW Node](imgs/dbw-node-ros-graph.png)
 
-See code in [/ros/src/twist_controller/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/twist_controller/) (coming soon).
+See code in [/ros/src/twist_controller/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/twist_controller/).
 
 ## Traffic Light Detection
-I plan to use YOLOv3-tiny for traffic light detection and classification.
+### Simulator
+We use YOLOv3-tiny for traffic light detection and classification.
 
 1. Download YOLOv3-tiny weight from [YOLO website](http://pjreddie.com/darknet/yolo/)
 1. Convert the Darknet YOLO model to a Keras model.
-1. Fine tuning for traffic light detection.
+1. Transfer learning for traffic light detection.
+
+Graph of the YOLOv3-tiny model:
+<!--![YOLOv3-tiny](imgs/yolo_tiny_graph.png)-->
+<div class="test">
+<img src="imgs/yolo_tiny_graph.png" width="600">
+</div>
+
+|Loss|Val Loss|
+|:---|:---|
+|![](imgs/sim_loss.png)|![](imgs/sim_val_loss.png)|
 
 ## Original Instructions
 This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
