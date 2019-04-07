@@ -201,9 +201,11 @@ class TLDetector(object):
                     line_wp_idx = temp_wp_idx
 
         if closest_light:
-            state = self.get_light_state(closest_light)
+            state, score = self.get_light_state(closest_light)
             # rospy.loginfo('closest light wp %i with color %i', line_wp_idx, state)
             # print('closest light wp {} with color {}'.format(line_wp_idx, state))
+            print('wp:{} light_wp:{} color:{} score:{:.3f}'.format(
+                    car_wp_idx, line_wp_idx, state, score))
             return line_wp_idx, state
         else:
             return -1, TrafficLight.UNKNOWN

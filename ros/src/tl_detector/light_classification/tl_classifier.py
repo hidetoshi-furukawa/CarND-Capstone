@@ -45,7 +45,7 @@ class TLClassifier(object):
         if is_site:
             self.model_path = 'models/real_model.h5'
             self.anchors_path = 'light_classification/yolo_anchors.txt'
-            print('anchors_path: {}'.format(self.anchors_path))  # DEBUG
+            # print('anchors_path: {}'.format(self.anchors_path))  # DEBUG
         self.class_names = self._get_class()
         self.anchors = self._get_anchors()
         self.sess = K.get_session()
@@ -125,7 +125,7 @@ class TLClassifier(object):
             })
 
         max_class = None
-        max_score = None
+        max_score = 0.0
         if out_scores.size > 0:
             max_score_idx = out_scores.argmax()
             max_class = out_classes[max_score_idx]
@@ -141,7 +141,7 @@ class TLClassifier(object):
         if max_class is not None:
             predicted_class = self.class_names[max_class]
             dt = end - start
-            print("Found traffic light: {light:%s score:%.3f dt:%.3f}"%(predicted_class, max_score, dt))
+            # print("Found traffic light: {light:%s score:%.3f dt:%.3f}"%(predicted_class, max_score, dt))
 
         rtn = TrafficLight.UNKNOWN
 
@@ -155,7 +155,7 @@ class TLClassifier(object):
         self.last_pred = rtn
         self.image_count += 1
 
-        return rtn
+        return rtn, max_score
 
     def close_session(self):
         self.sess.close()
