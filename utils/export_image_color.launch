@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="rosbag" type="play" name="rosbag" args="-d 2 /path/to/CarND-Capstone/rosbag/traffic_light_training.bag"/>
+  <node name="extract" pkg="image_view" type="extract_images" respawn="false" output="screen">
+    <remap from="image" to="/image_color"/>
+    <param name="filename_format" value="/path/to/CarND-Capstone/utils/image_color/frame%04d.jpg"/>
+    <param name="sec_per_frame" value="1.0"/>
+  </node>
+</launch>
