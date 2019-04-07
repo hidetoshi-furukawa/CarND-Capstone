@@ -44,7 +44,8 @@ class TLClassifier(object):
         self.__dict__.update(self._defaults) # set up default values
         if is_site:
             self.model_path = 'models/real_model.h5'
-            self.anchors_path = 'light_classification/yolo_tiny_anchors.txt'
+            self.anchors_path = 'light_classification/yolo_anchors.txt'
+            print('anchors_path: {}'.format(self.anchors_path))  # DEBUG
         self.class_names = self._get_class()
         self.anchors = self._get_anchors()
         self.sess = K.get_session()
