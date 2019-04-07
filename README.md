@@ -3,6 +3,14 @@
 
 ![carla](./imgs/udacity-self-driving-car.jpeg)
 
+## Team Sakura
+### Team Members
+* Hidetoshi Furukawa: xdymg975 (at) gmail.com (team lead)
+* João Gonçalves: miguel.joao.goncalves (at) gmail.com
+* Liangli Fei: fei.liangli.info (at) gmail.com
+* Yuji Kawamura: yujika2019 (at) gmail.com
+* Junxun Luo: luojunxun (at) gmail.com
+
 ## System Architecture
 The following is a system architecture diagram showing the ROS nodes and topics used in the project.
 The ROS nodes and topics shown in the diagram are described briefly in the **Code Structure** section below.
@@ -36,22 +44,32 @@ This package contains the files that are responsible for control of the vehicle:
 See code in [/ros/src/twist_controller/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/twist_controller/).
 
 ## Traffic Light Detection
-### Simulator
-We use YOLOv3-tiny for traffic light detection and classification.
+### Model for Simulator
+We use Tiny YOLOv3 for traffic light detection and classification.
 
-1. Download YOLOv3-tiny weight from [YOLO website](http://pjreddie.com/darknet/yolo/)
-1. Convert the Darknet YOLO model to a Keras model.
+1. Download Tiny YOLOv3 (also called YOLOv3-tiny) weight from [YOLO website](http://pjreddie.com/darknet/yolo/)
+1. Convert the Darknet YOLO model to a Keras model using [keras-yolo3](https://github.com/hidetoshi-furukawa/keras-yolo3).
 1. Transfer learning for traffic light detection.
-
-Graph of the YOLOv3-tiny model:
-<!--![YOLOv3-tiny](imgs/yolo_tiny_graph.png)-->
-<div class="test">
-<img src="imgs/yolo_tiny_graph.png" width="600">
-</div>
 
 |Loss|Val Loss|
 |:---|:---|
 |![](imgs/sim_loss.png)|![](imgs/sim_val_loss.png)|
+
+Graph of the Tiny YOLOv3 model:
+<div class="test">
+<img src="imgs/yolo_tiny_graph.png" width="600">
+</div>
+
+### Model for Site
+We plan to use YOLOv3 for traffic light detection and classification.
+
+YOLOv3 (open youtube video on click):
+
+[![YOLOv3 for site](imgs/tl_for_site.jpg)](https://www.youtube.com/watch?v=rLzaqbla7yA)
+
+Tiny YOLOv3 (open youtube video on click):
+
+[![Tiny YOLOv3 for site](imgs/tl_tiny_for_site.jpg)](https://www.youtube.com/watch?v=sHTn8sFlQEw)
 
 ## Original Instructions
 This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
