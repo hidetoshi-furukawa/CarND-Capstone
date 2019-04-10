@@ -56,7 +56,19 @@ class Controller(object):
         sample_time = current_time - self.last_time
         self.last_time = current_time
 
+        '''
         throttle = self.throttle_controller.step(vel_error, sample_time)
+        print('sample_time:{:.3f}, vel_error:{:.1f}, throttle:{}'.format(
+                vel_error, sample_time, throttle))  # DEBUG
+        '''
+        if sample_time < 5 * 0.02:
+            throttle = self.throttle_controller.step(vel_error, sample_time)
+        else:
+            throttle = self.throttle_controller.step(vel_error, sample_time)
+            print('sample_time:{:.3f}>=0.1, vel_error:{:.1f}, throttle:{}'.format(
+                    sample_time, vel_error, throttle))  # DEBUG
+            throttle = 0.
+            self.throttle_controller.reset()
 
         brake = 0.
 
