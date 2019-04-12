@@ -31,9 +31,11 @@ class Controller(object):
 
         min_throttle = 0.
         max_throttle = 0.2
+        i_min = -0.04 # 0.2 * 20%
+        i_max = 0.04
 
         # initialize PID controller
-        self.throttle_controller = PID(p, i, d, min_throttle, max_throttle)
+        self.throttle_controller = PID(p, i, d, min_throttle, max_throttle, i_min, i_max)
 
         tau = 0.5
         ts = .02
