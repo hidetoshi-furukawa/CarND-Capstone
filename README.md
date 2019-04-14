@@ -1,15 +1,47 @@
-# Self Driving Car Nanodegree - Capstone Project: System Integration
+# Self Driving Car Nanodegree - Capstone Project: System Integration by Team Sakura
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 ![carla](./imgs/udacity-self-driving-car.jpeg)
 
+## Results
+### 2nd submission (Tag 1.1.0)
+It is from now on.
+
+### For 2nd submission
+We limit the velocity toward the stop line to approximately 10 km/h and improve the detection performance for blurred images.
+* Change `MAX_DECEL` from 5.0 to 0.5 in `waypoint_updater.py`.
+* Change `real_model.h5` used by `tl_detector.py` (but not included in repository).
+
+|`MAX_DECEL` and decelerate_vel|`real_model.h5` (1.1.0)|
+|:--:|:--:|
+|![](./imgs/decel_vel.png)|![](./imgs/tl_site_new.jpg)|
+
+### 1st submission (Tag 1.0.0)
+The car did not stop even though the traffic light was **red**.  
+The cause is that the blurred traffic lights are can not be detected when the velocity exceeds about 10 km/h on the way to `/traffic_waypoint`.
+
+|`/current_velocity` and `/traffic_waypoint`|`real_model.h5` (1.0.0)|
+|:--:|:--:|
+|![](./imgs/cv_and_tw_zoom.png)|![](./imgs/tl_site_old.jpg)|
+
 ## Team Sakura
+|Night|Day|
+|:--:|:--:|
+|![night](./imgs/night.png)|![day](./imgs/day.png)|
 ### Team Members
 * Hidetoshi Furukawa: xdymg975 (at) gmail.com (team lead)
 * João Gonçalves: miguel.joao.goncalves (at) gmail.com
 * Liangli Fei: fei.liangli.info (at) gmail.com
 * Yuji Kawamura: yujika2019 (at) gmail.com
 * Junxun Luo: luojunxun (at) gmail.com
+
+## Submission checklist and requirements
+* Launch correctly using the launch files provided in the capstone repo.
+* Smoothly follow waypoints in the simulator.
+* Respect the target top speed set for the waypoints' `twist.twist.linear.x` in `waypoint_loader.py`.
+* Stop at traffic lights when needed.
+* Stop and restart PID controllers depending on the state of `/vehicle/dbw_enabled`.
+* Publish throttle, steering, and brake commands at 50Hz.
 
 ## System Architecture
 The following is a system architecture diagram showing the ROS nodes and topics used in the project.
@@ -20,28 +52,42 @@ The ROS nodes and topics shown in the diagram are described briefly in the **Cod
 ## Code Structure
 Below is a brief overview of the repo structure, along with descriptions of the ROS nodes.
 
-### Traffic Light Detection Node
+### (path_to_project_repo)/ros/src/tl_detector/
 This package contains the traffic light detection node: `tl_detector.py`.
+This node takes in data from the `/image_color`, `/current_pose`, and `/base_waypoints` topics and publishes the locations to stop for red traffic lights to the `/traffic_waypoint` topic.
+
+The `/current_pose` topic provides the vehicle's current position, and `/base_waypoints` provides a complete list of waypoints the car will be following.
+
+We build both a traffic light detection node and a traffic light classification node. Traffic light detection should take place within `tl_detector.py`, whereas traffic light classification should take place within `../tl_detector/light_classification_model/tl_classfier.py`.
 
 ![Traffic Light Detection Node](imgs/tl-detector-ros-graph.png)
 
 See code in
 [/ros/src/tl_detector/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/tl_detector/).
 
-### Waypoint Updater Node
+### (path_to_project_repo)/ros/src/waypoint_updater/
 This package contains the waypoint updater node: `waypoint_updater.py`.
 
 ![Waypoint Updater Node](imgs/waypoint-updater-ros-graph.png)
 
 See code in [/ros/src/waypoint_updater/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/waypoint_updater/).
 
-### Drive By Wire (DBW) Node
-Carla is equipped with a drive-by-wire (dbw) system, meaning the throttle, brake, and steering have electronic control.
+### (path_to_project_repo)/ros/src/twist_controller/
+Carla is equipped with a drive-by-wire (DBW) system, meaning the throttle, brake, and steering have electronic control.
 This package contains the files that are responsible for control of the vehicle: the node `dbw_node.py` and the file `twist_controller.py`.
 
 ![DBW Node](imgs/dbw-node-ros-graph.png)
 
 See code in [/ros/src/twist_controller/](https://github.com/hidetoshi-furukawa/CarND-Capstone/tree/master/ros/src/twist_controller/).
+
+#### (path_to_project_repo)/ros/src/styx/
+A package that contains a server for communicating with the simulator, and a bridge to translate and publish simulator messages to ROS topics.
+#### (path_to_project_repo)/ros/src/styx_msgs/
+A package which includes definitions of the custom ROS message types used in the project.
+#### (path_to_project_repo)/ros/src/waypoint_loader/
+A package which loads the static waypoint data and publishes to `/base_waypoints`.
+#### (path_to_project_repo)/ros/src/waypoint_follower/
+A package containing code from Autoware which subscribes to `/final_waypoints` and publishes target vehicle linear and angular velocities in the form of twist commands to the `/twist_cmd` topic.
 
 ## Traffic Light Detection
 ### Model for Simulator
@@ -61,7 +107,7 @@ Graph of the Tiny YOLOv3 model:
 </div>
 
 ### Model for Site
-We plan to use YOLOv3 for traffic light detection and classification.
+We use YOLOv3 for traffic light detection and classification.
 
 YOLOv3 (open youtube video on click):
 
