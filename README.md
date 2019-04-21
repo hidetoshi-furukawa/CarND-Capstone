@@ -5,7 +5,15 @@
 
 ## Results
 ### 2nd submission (Tag 1.1.0)
-It is from now on.
+It is a sad result for our team.  
+One of Udacity's requirements, "Stop at traffic lights as needed," was not evaluated.  
+The reason is that the traffic light in the testing lot did not work as shown in the figure below.
+
+|Video|rosbag `/image_color`|
+|:--:|:--:|
+|![](./imgs/video.png)|![](./imgs/traffic_light.jpg)|
+
+But that is true, and it is a sad result.
 
 ### For 2nd submission
 We limit the velocity toward the stop line to approximately 10 km/h and improve the detection performance for blurred images.
