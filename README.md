@@ -5,15 +5,13 @@
 
 ## Results
 ### 2nd submission (Tag 1.1.0)
-It is a sad result for our team.  
-One of Udacity's requirements, "Stop at traffic lights as needed," was not evaluated.  
-The reason is that the traffic light in the testing lot did not work as shown in the figure below.
+The car did not stop even though the traffic light was **red**.  
+The DBW node outputs `/vehicle/brake_cmd`, but Carla does not stop at the stop position.  
+The cause is that it accelerates too much at first, and the transition to deceleration is slow.
 
-|Video|rosbag `/image_color`|
+|`current_velocity`, `throttle_cmd` and `brake_cmd`|`/base_waypoints` and `/current_pose`|
 |:--:|:--:|
-|![](./imgs/video.png)|![](./imgs/traffic_light.jpg)|
-
-But that is true, and it is a sad result.
+|![](./imgs/vel_throttle_brake.png)|![](./imgs/wp_and_pose_zoom.png)|
 
 ### For 2nd submission
 We limit the velocity toward the stop line to approximately 10 km/h and improve the detection performance for blurred images.
