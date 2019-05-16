@@ -4,6 +4,19 @@
 ![carla](./imgs/udacity-self-driving-car.jpeg)
 
 ## Results
+### 3rd submission (Tag 1.2.0)
+Carla was creeping, not full stop, when the traffic light was **red**.  
+When the traffic light turned **green**, Carla had a smooth acceleration.  
+
+[![Real Sefl-Driving Car](http://img.youtube.com/vi/mmI-CeORwAM/0.jpg)](https://www.youtube.com/watch?v=mmI-CeORwAM)
+
+The DBW node outputs `/vehicle/brake_cmd`, but Carla does not stop at the stop position.  
+Maybe the brake torque is not enough.
+
+|`current_velocity`, `throttle_cmd` and `brake_cmd`|`/base_waypoints` and `/current_pose`|
+|:--:|:--:|
+|![](./imgs/vel_throttle_brake_new.png)|![](./imgs/wp_and_pose_zoom_new.png)|
+
 ### 2nd submission (Tag 1.1.0)
 The car did not stop even though the traffic light was **red**.  
 The DBW node outputs `/vehicle/brake_cmd`, but Carla does not stop at the stop position.  
