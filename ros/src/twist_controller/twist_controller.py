@@ -72,5 +72,7 @@ class Controller(object):
             throttle = 0.
             decel = max(vel_error, self.decel_limit)
             brake = abs(decel) * self.vehicle_mass * self.wheel_radius
+            if brake < 700.:
+                brake = 700.
         # rospy.loginfo("Control (%s, %s, %s) -> throttle: %s, brake: %s, steer: %s", linear_vel, current_vel, vel, throttle, brake, steering)
         return throttle, brake, steering
