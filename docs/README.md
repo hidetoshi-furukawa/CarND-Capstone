@@ -46,7 +46,7 @@ The cause is that the blurred traffic lights are can not be detected when the ve
 ## Team Sakura
 |Night|Day|
 |:--:|:--:|
-|![night](./imgs/night.png)|![day](./imgs/day.png)|
+|![](./imgs/night.png)|![](./imgs/day.png)|
 
 ### Team Members
 - Hidetoshi Furukawa: hidetoshi.furukawa (at) ai4sig.com **team lead**
