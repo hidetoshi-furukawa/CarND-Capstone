@@ -47,6 +47,7 @@ The cause is that the blurred traffic lights are can not be detected when the ve
 |Night|Day|
 |:--:|:--:|
 |![night](./imgs/night.png)|![day](./imgs/day.png)|
+
 ### Team Members
 - Hidetoshi Furukawa: hidetoshi.furukawa (at) ai4sig.com **team lead**
 - João Gonçalves: miguel.joao.goncalves (at) gmail.com
