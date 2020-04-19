@@ -1,14 +1,40 @@
 # Self Driving Car Nanodegree - Capstone Project: System Integration by Team Sakura
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](https://www.udacity.com/drive)
 
 ![carla](./imgs/udacity-self-driving-car.jpeg)
+
+## Table of Contents
+
+<!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:0 orderedList:0 -->
+
+- [Results](#results)
+	- [3rd submission (Tag 1.2.0)](#3rd-submission-tag-120)
+	- [2nd submission (Tag 1.1.0)](#2nd-submission-tag-110)
+	- [For 2nd submission](#for-2nd-submission)
+	- [1st submission (Tag 1.0.0)](#1st-submission-tag-100)
+- [Team Sakura](#team-sakura)
+	- [Team Members](#team-members)
+- [Submission checklist and requirements](#submission-checklist-and-requirements)
+- [System Architecture](#system-architecture)
+- [Code Structure](#code-structure)
+- [Traffic Light Detection](#traffic-light-detection)
+	- [Model for Simulator](#model-for-simulator)
+	- [Model for Site](#model-for-site)
+- [Original Instructions](#original-instructions)
+	- [Native Installation](#native-installation)
+	- [Docker Installation](#docker-installation)
+	- [Port Forwarding](#port-forwarding)
+	- [Usage](#usage)
+	- [Real world testing](#real-world-testing)
+
+<!-- /TOC -->
 
 ## Results
 ### 3rd submission (Tag 1.2.0)
 Carla was creeping, not full stop, when the traffic light was **red**.  
 When the traffic light turned **green**, Carla had a smooth acceleration.  
 
-[![Real Sefl-Driving Car](http://img.youtube.com/vi/mmI-CeORwAM/0.jpg)](https://www.youtube.com/watch?v=mmI-CeORwAM)
+[![Real Sefl-Driving Car](https://img.youtube.com/vi/mmI-CeORwAM/0.jpg)](https://www.youtube.com/watch?v=mmI-CeORwAM)
 
 The DBW node outputs `/vehicle/brake_cmd`, but Carla does not stop at the stop position.  
 Maybe the brake torque is not enough.
@@ -44,6 +70,7 @@ The cause is that the blurred traffic lights are can not be detected when the ve
 |![](./imgs/cv_and_tw_zoom.png)|![](./imgs/tl_site_old.jpg)|
 
 ## Team Sakura
+
 |Night|Day|
 |:--:|:--:|
 |![night](./imgs/night.png)|![day](./imgs/day.png)|
@@ -113,7 +140,7 @@ A package containing code from Autoware which subscribes to `/final_waypoints` a
 ### Model for Simulator
 We use Tiny YOLOv3 for traffic light detection and classification.
 
-1. Download Tiny YOLOv3 (also called YOLOv3-tiny) weight from [YOLO website](http://pjreddie.com/darknet/yolo/)
+1. Download Tiny YOLOv3 (also called YOLOv3-tiny) weight from [YOLO website](https://pjreddie.com/darknet/yolo/)
 1. Convert the Darknet YOLO model to a Keras model using [keras-yolo3](https://github.com/hidetoshi-furukawa/keras-yolo3).
 1. Transfer learning for traffic light detection.
 
@@ -153,8 +180,8 @@ Please use **one** of the two installation options, either native **or** docker 
   The Udacity provided virtual machine has ROS and Dataspeed DBW already installed, so you can skip the next two steps if you are using this.
 
 - Follow these instructions to install ROS
-  - [ROS Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu) if you have Ubuntu 16.04.
-  - [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) if you have Ubuntu 14.04.
+  - [ROS Kinetic](https://wiki.ros.org/kinetic/Installation/Ubuntu) if you have Ubuntu 16.04.
+  - [ROS Indigo](https://wiki.ros.org/indigo/Installation/Ubuntu) if you have Ubuntu 14.04.
 - [Dataspeed DBW](https://bitbucket.org/DataspeedInc/dbw_mkz_ros)
   - Use this option to install the SDK on a workstation that already has ROS installed: [One Line SDK Install (binary)](https://bitbucket.org/DataspeedInc/dbw_mkz_ros/src/81e63fcc335d7b64139d7482017d6a97b405e250/ROS_SETUP.md?fileviewer=file-view-default)
 - Download the [Udacity Simulator](https://github.com/udacity/CarND-Capstone/releases).
